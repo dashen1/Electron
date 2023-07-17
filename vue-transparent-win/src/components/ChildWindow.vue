@@ -7,24 +7,29 @@
                 <div class="files">Show content</div>
             </div>
             <div class="bottom">
-                <button class="btn_same no_drag btn_Ok">OK</button>
+                <button class="btn_same no_drag btn_Ok" @click="clickOk">OK</button>
                 <button class="btn_same no_drag btn_reject" @click="clickClose">Abbrechen</button>
             </div>
         </div>
     </div>
 </template>
 
-<script>//import HelloWorld from './components/HelloWorld.vue'
+<script>
+    //import HelloWorld from './components/HelloWorld.vue'
 
-export default {
-  name: 'ChildWindowVue',
-  methods:{
-      clickClose(){
-          window.electronAPI.closeChildWindow()
-          console.log('hello')
-      }
-  }
-}</script>
+    export default {
+        name: 'ChildWindowVue',
+        methods: {
+            clickOk(){
+                window.electronAPI.closeChildWindowWithUrl('url:www.baidu.com')
+            },
+
+            clickClose() {
+                window.electronAPI.closeChildWindow()
+                console.log('hello')
+            }
+        }
+    }</script>
 
 <style lang="scss" scoped>
 
@@ -33,25 +38,25 @@ export default {
         background: linear-gradient(to bottom, #e57c07,#fdc825);
     }
 
-    .shadow{
-        width:100%;
-        height:100vh;
-        background-color:#fff;
+    .shadow {
+        width: 100%;
+        height: 100vh;
+        background-color: #fff;
     }
 
     .win {
         height: calc(100vh - 20px);
-        width:calc(100% - 20px);
-        position:absolute;
-        top:10px;
-        left:10px;
+        width: calc(100% - 20px);
+        position: absolute;
+        top: 10px;
+        left: 10px;
         background: linear-gradient(to bottom,#1291f8,#0860a8,#014171);
     }
 
-    .header{
-        width:80%;
-        padding-top:20px;
-        text-align:center;
+    .header {
+        width: 80%;
+        padding-top: 20px;
+        text-align: center;
     }
 
     .content {
@@ -85,7 +90,7 @@ export default {
         line-height: 30px;
         text-align: center;
         border: 1px solid #000;
-        margin-top:20px;
+        margin-top: 20px;
     }
 
     .btn_same:hover {
@@ -93,8 +98,7 @@ export default {
         background: linear-gradient(to bottom, #e57c07,#fdc825);
     }
 
-    .btn_reject{
-        margin-left:10px;
+    .btn_reject {
+        margin-left: 10px;
     }
-
 </style>

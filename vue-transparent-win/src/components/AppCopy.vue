@@ -6,7 +6,7 @@
             <!--<router-view></router-view>-->
             <div class="content">
                 <div><button>返回箭头</button></div>
-                <div class="title"><img v-if="pages[currentPage].hasIcon" src="../assets/B-vtech-logo.jpg"/>{{pages[currentPage].title}}</div>
+                <div class="title"><img v-if="pages[currentPage].hasIcon" src="./assets/B-vtech-logo.jpg"/>{{pages[currentPage].title}}</div>
                 <div class="middle_content">
                     <div v-if="currentPage === 0">
                         <div>{{pages[currentPage].content}}</div>
@@ -24,7 +24,6 @@
                         <ChoseFileComponent></ChoseFileComponent>
                     </div>
                     <div v-if="currentPage === 3">
-                        <div>{{pages[currentPage].content}}</div>
                         <Progress></Progress>
                     </div>
                 </div>
@@ -42,10 +41,10 @@
 </template>
 
 <script>
-    import Progress from './Progress.vue'
-    import ChoseFileComponent from './ChoseFileComponent.vue'
+    import Progress from './components/Progress.vue'
+    import ChoseFileComponent from './components/ChoseFileComponent.vue'
     export default {
-        name: 'HomeView',
+        name: 'AppCopy',
          components: {
              Progress,
              ChoseFileComponent
@@ -87,10 +86,6 @@
 
             clickChoseFile() {
                 window.electronAPI.openNewWindow()
-            },
-
-            EndProgress(){
-                alert("ok")
             }
         }
     }
@@ -135,7 +130,7 @@
         width: calc(100% - 20px);
         height: calc(100% - 80px);
         padding:10px;
-        background: url(../assets/globalBG.png);
+        background: url(./assets/globalBG.png);
         border-top-left-radius: 20px; //Բ��20px
         border-top-right-radius: 20px; //Բ��20px
     }

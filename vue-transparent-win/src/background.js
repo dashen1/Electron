@@ -1,4 +1,4 @@
-'use strict'
+﻿'use strict'
 
 import { app, protocol, BrowserWindow,ipcMain,BrowserView,shell,net } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
@@ -34,7 +34,7 @@ async function createWindow() {
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    //if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -44,11 +44,12 @@ async function createWindow() {
   ipcMain.on('window-min', function () {
         win.minimize();
     })
-    
+  
     ipcMain.on('browserview-open', function () {
         const view = new BrowserView()
         win.setBrowserView(view)
         view.setBounds({ x: 100, y: 200, width: 600, height: 300 })
+        view.setBackgroundColor()
         view.webContents.loadURL('https://electronjs.org')
     })
 
@@ -68,9 +69,9 @@ async function createWindow() {
               preload: path.join(__dirname, 'preload.js')
             }
     })
-    childWin.webContents.openDevTools()
+    //childWin.webContents.openDevTools()
     const modalPath = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:8080/ChildWindow'
+    ? 'http://localhost:8081/ChildWindow'
     : `file://${__dirname}/ChildWindow`
         //childWin.loadURL('app://./index.html#ChildWindow');
         childWin.loadURL(modalPath);
@@ -152,4 +153,10 @@ ipcMain.handle("doSomething",() =>{
      })
   });
   request.end();
+})
+
+ipcMain.on("window-child-closed-url", (event,url) => {
+    console.log("main:"+url)
+    win.webContents.send("gotUrl",url);
+    childWin.destroy();
 })

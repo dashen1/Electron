@@ -1,22 +1,32 @@
-<template>
-  <!--<img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-    <div class="shadow">
-        <div class="win">
-            <router-view></router-view>
-        </div>
-    </div>
+﻿<template>
+    <router-view class="drag"></router-view>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
+    //import Progress from './components/Progress.vue'
+    //import ChoseFileComponent from './components/ChoseFileComponent.vue'
+    export default {
+        name: 'App',
+         //components: {
+         //    Progress,
+         //    ChoseFileComponent
+         //},
 
-export default {
-  name: 'App',
- // components: {
- //   HelloWorld
- // }
-}
+        data() {
+            return {
+                pages: [
+                    { page: 0, hasIcon: false, title: "title0", content: 'content0' },
+                    { page: 1, hasIcon: true, title: "title1", content: 'This is Privacy.' },
+                    { page: 2, hasIcon: true, title: "title2", content: 'This is ChoseFile.' },
+                    { page: 3, hasIcon: true, title: "title3", content: 'This is Progress.' }],
+                    currentPage:0
+            }
+        },
+
+        methods: {
+
+        }
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -29,11 +39,8 @@ export default {
   color: #2c3e50;
 }
 
-    .shadow {
-        width: 100%;
-        height: 100vh;
-        background-color: aquamarine;
-        border-radius: 20px;
+    .drag {
         -webkit-app-region: drag;
     }
+
 </style>

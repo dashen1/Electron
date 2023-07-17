@@ -14,15 +14,35 @@ const routes = [
         name: 'Helloworld',
         component: () => import('./components/HelloWorld.vue')
     },
+    //{
+    //    path: '/Installation',
+    //    name: 'Installation',
+    //    component: () => import('./components/Installation.vue')
+    //},
     {
-        path: '/Installation',
-        name: 'Installation',
-        component: () => import('./components/Installation.vue')
+        path: '/InstallationPrivacy',
+        name: 'InstallationPrivacy',
+        component: () => import('./components/InstallationPrivacy.vue')
     },
     {
-        path: '/Installation2',
-        name: 'Installation2',
-        component: () => import('./components/Installation_2.vue')
+        path: '/InstallationChoseFile',
+        name: 'InstallationChoseFile',
+        component: () => import('./components/InstallationChoseFile.vue')
+    },
+    {
+        path: '/InstallationProgress',
+        name: 'InstallationProgress',
+        component: () => import('./components/InstallationProgress.vue')
+    },
+    {
+        path: '/ChoseFileComponent',
+        name: 'ChoseFileComponent',
+        component: () => import('./components/ChoseFileComponent.vue')
+    },
+    {
+        path: '/ProgressComponent',
+        name: 'ProgressComponent',
+        component: () => import('./components/Progress.vue')
     },
     {
         path: '/Downloading',
