@@ -19,6 +19,9 @@
 
     export default {
         name: 'ChildWindowVue',
+        mounted(){
+            window.electronAPI.showNewWindow()
+        },
         methods: {
             clickOk(){
                 window.electronAPI.closeChildWindowWithUrl('url:www.baidu.com')

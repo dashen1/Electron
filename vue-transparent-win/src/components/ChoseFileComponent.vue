@@ -15,13 +15,26 @@ export default {
   },
 
     mounted() {
-            //alert("hello")
+            const _this = this
+            this.initBtn(_this)
         },
     methods:{
 
         clickChoseFile(){
             window.electronAPI.openNewWindow()
-        }
+        },
+
+        initBtn(_this) {
+            let count = 0;
+                var timer = setInterval(function () {
+                    count++;
+                    if (count === 3) {
+                    _this.$emit('progressEnd',100);
+                        clearInterval(timer);
+                    }
+                }, 1000);
+
+            },
 
  }
 };

@@ -14,8 +14,10 @@ ipcRenderer.on("gotUrl", (event,url) => {
 
 contextBridge.exposeInMainWorld("electronAPI", {
     minWindow: () => ipcRenderer.send('window-min'),
+    showMainWindow: () => ipcRenderer.send('window-min-ready-to-show'),
     opnWebview: () => ipcRenderer.send('browserview-open'),
     openNewWindow: () => ipcRenderer.send('window-open-new'), 
+    showNewWindow: () => ipcRenderer.send('window-child-ready-to-show'), 
     closeChildWindow: () => ipcRenderer.send('window-child-closed'),
     closeChildWindowWithUrl: (url) => ipcRenderer.send('window-child-closed-url',url),
     loadExploer: async (url) => ipcRenderer.invoke('loadExploer', url),

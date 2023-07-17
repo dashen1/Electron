@@ -28,7 +28,8 @@ async function createWindow() {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
+    show:false
   })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -67,11 +68,12 @@ async function createWindow() {
               nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
               contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
               preload: path.join(__dirname, 'preload.js')
-            }
+            },
+            show:false
     })
     //childWin.webContents.openDevTools()
     const modalPath = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:8081/ChildWindow'
+    ? 'http://localhost:8080/ChildWindow'
     : `file://${__dirname}/ChildWindow`
         //childWin.loadURL('app://./index.html#ChildWindow');
         childWin.loadURL(modalPath);
@@ -85,6 +87,11 @@ async function createWindow() {
     ipcMain.on('window-child-closed',()=>{
       console.log("hello")
       childWin.destroy();
+    })
+
+    ipcMain.on("window-child-ready-to-show",() =>{
+      console.log('ready to show')
+      childWin.show()
     })
 }
 
@@ -159,4 +166,9 @@ ipcMain.on("window-child-closed-url", (event,url) => {
     console.log("main:"+url)
     win.webContents.send("gotUrl",url);
     childWin.destroy();
+})
+
+ipcMain.on("window-min-ready-to-show", () =>{
+  console.log("main window ready to show")
+  win.show()
 })

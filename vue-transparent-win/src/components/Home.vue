@@ -21,11 +21,11 @@
                     </div>
                     <div v-if="currentPage === 2">
                         <div>{{pages[currentPage].content}}</div>
-                        <ChoseFileComponent></ChoseFileComponent>
+                        <ChoseFileComponent @progressEnd="downloadEnd"></ChoseFileComponent>
                     </div>
                     <div v-if="currentPage === 3">
                         <div>{{pages[currentPage].content}}</div>
-                        <Progress></Progress>
+                        <Progress @progressEnd="downloadEnd" :information="info" :message="msg"></Progress>
                     </div>
                 </div>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="btn_img" style="float:left;">
                     <img class="class_img" src="~@/assets/B-vtech-logo.jpg" />
                 </div>
-                <div class="btn_same btn_continue no_drag" @click="clickContinue">Continue</div>
+                <div class="btn_same btn_continue no_drag" :class="{click_disable:isDisable}" @click="clickContinue">Continue</div>
                 <!--<router-link class="btn_same btn_continue no_drag" to="/InstallationPrivacy">Continue</router-link>-->
                 <div class="btn_same btn_close no_drag">Close</div>
             </div>
@@ -58,8 +58,15 @@
                     { page: 1, hasIcon: true, title: "title1", content: 'This is Privacy.' },
                     { page: 2, hasIcon: true, title: "title2", content: 'This is ChoseFile.' },
                     { page: 3, hasIcon: true, title: "title3", content: 'This is Progress.' }],
-                    currentPage:0
+                    currentPage:0,
+                    msg:'msgTest',
+                    infor:[],
+                    isDisable:false
             }
+        },
+
+        mounted(){
+            window.electronAPI.showMainWindow()
         },
 
         methods: {
@@ -68,6 +75,10 @@
                 //if (this.currentPage === 1) {
                 //    window.electronAPI.opnWebview()
                 //} 
+                this.isDisable = true
+                if(this.currentPage === 1){
+                    this.isDisable = false
+                }
             },
 
             updateProgress() {
@@ -89,8 +100,9 @@
                 window.electronAPI.openNewWindow()
             },
 
-            EndProgress(){
-                alert("ok")
+            downloadEnd(data){
+                this.isDisable = false
+                alert(data)
             }
         }
     }
@@ -242,6 +254,11 @@
 
     .btn_close {
         right: 200px;
+    }
+
+    .click_disable{
+        pointer-events: none;
+        background: grey;
     }
 
     .btn_same:hover {

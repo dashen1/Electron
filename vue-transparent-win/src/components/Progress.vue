@@ -4,24 +4,23 @@
             <div class="progress"></div>
         </div>
         <span class="progress_text"></span>
+        <div>hello:{{message}}</div>
     </div>
 </template>
 
 <script>
 export default {
   name: "ProgressComponent",
-  props:{
-
-      msg:String
-  },
+  props:['message','information'],
 
 
         mounted() {
-          this.updateProgress()
+          const _this = this
+          this.updateProgress(_this)
         },
     methods:{
-
-      updateProgress(){
+    
+      updateProgress(_this){
             const progressBar = document.querySelector('.progress');
             const showProgress = document.querySelector('.progress_text');
             let count = 0;
@@ -33,7 +32,7 @@ export default {
                 progressBar.style.width = `${count}%`;
                 showProgress.innerText = `${count} %`;
                 if (count === 100) {
-                    //this.$emit('EndProgress');
+                    _this.$emit('progressEnd',100);
                     clearInterval(timer);
                 }
         },1000); 
