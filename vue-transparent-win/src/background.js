@@ -35,7 +35,7 @@ async function createWindow() {
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    //if (!process.env.IS_TEST) win.webContents.openDevTools()
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -50,8 +50,11 @@ async function createWindow() {
         const view = new BrowserView()
         win.setBrowserView(view)
         view.setBounds({ x: 100, y: 200, width: 600, height: 300 })
-        view.setBackgroundColor()
+        //view.setBackgroundColor("#F5F5F5")
         view.webContents.loadURL('https://electronjs.org')
+        view.webContents.on("did-finish-load", () =>{
+          console.log("finish load")
+        })
     })
 
     ipcMain.on('window-open-new', function () {
@@ -93,6 +96,7 @@ async function createWindow() {
       console.log('ready to show')
       childWin.show()
     })
+    
 }
 
 // Quit when all windows are closed.

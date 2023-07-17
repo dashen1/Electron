@@ -17,7 +17,7 @@
                     </div>
                     <div v-if="currentPage === 1">
                         <div>{{pages[currentPage].content}}</div>
-                        <div class="browserview"></div>
+                        <div class="browserview no_drag"></div>
                     </div>
                     <div v-if="currentPage === 2">
                         <div>{{pages[currentPage].content}}</div>
@@ -72,9 +72,9 @@
         methods: {
             clickContinue() {
                 this.currentPage++;
-                //if (this.currentPage === 1) {
-                //    window.electronAPI.opnWebview()
-                //} 
+                if (this.currentPage === 1) {
+                   window.electronAPI.opnWebview()
+                } 
                 this.isDisable = true
                 if(this.currentPage === 1){
                     this.isDisable = false
@@ -168,6 +168,7 @@
         height:50vh;
         left:100px;
         top:20vh;
+        margin: auto;
         background-color:aquamarine;
     }
 
