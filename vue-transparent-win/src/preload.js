@@ -12,9 +12,15 @@ ipcRenderer.on("gotUrl", (event,url) => {
     showUrl.innerText = url;
 })
 
+ipcRenderer.on("browserviewFinish", (event, data) => {
+    console.log(data);
+    var btnContinue = document.getElementById("id_btn_continue");
+    btnContinue.classList.remove("click_disable")
+})
+
 contextBridge.exposeInMainWorld("electronAPI", {
     minWindow: () => ipcRenderer.send('window-min'),
-    showMainWindow: () => ipcRenderer.send('window-min-ready-to-show'),
+    showMainWindow: () => ipcRenderer.send('window-main-ready-to-show'),
     opnWebview: () => ipcRenderer.send('browserview-open'),
     openNewWindow: () => ipcRenderer.send('window-open-new'), 
     showNewWindow: () => ipcRenderer.send('window-child-ready-to-show'), 

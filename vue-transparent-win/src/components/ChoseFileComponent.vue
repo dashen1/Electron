@@ -29,7 +29,7 @@ export default {
                 var timer = setInterval(function () {
                     count++;
                     if (count === 3) {
-                    _this.$emit('progressEnd',100);
+                    _this.$emit('progressEnd');
                         clearInterval(timer);
                     }
                 }, 1000);

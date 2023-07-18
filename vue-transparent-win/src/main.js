@@ -25,6 +25,11 @@ const routes = [
         component: () => import('./components/InstallationPrivacy.vue')
     },
     {
+        path: '/PrivacyComponent',
+        name: 'PrivacyComponent',
+        component: () => import('./components/PrivacyComponent.vue')
+    },
+    {
         path: '/InstallationChoseFile',
         name: 'InstallationChoseFile',
         component: () => import('./components/InstallationChoseFile.vue')

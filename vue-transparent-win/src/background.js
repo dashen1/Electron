@@ -29,13 +29,13 @@ async function createWindow() {
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
       preload: path.join(__dirname, 'preload.js')
     },
-    show:false
+    //show:false
   })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    //if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -53,7 +53,8 @@ async function createWindow() {
         //view.setBackgroundColor("#F5F5F5")
         view.webContents.loadURL('https://electronjs.org')
         view.webContents.on("did-finish-load", () =>{
-          console.log("finish load")
+            console.log("finish load")
+            win.webContents.send("browserviewFinish", "finish load");
         })
     })
 
@@ -172,7 +173,7 @@ ipcMain.on("window-child-closed-url", (event,url) => {
     childWin.destroy();
 })
 
-ipcMain.on("window-min-ready-to-show", () =>{
+ipcMain.on("window-main-ready-to-show", () =>{
   console.log("main window ready to show")
   win.show()
 })

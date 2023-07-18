@@ -17,7 +17,8 @@
                     </div>
                     <div v-if="currentPage === 1">
                         <div>{{pages[currentPage].content}}</div>
-                        <div class="browserview no_drag"></div>
+                        <!--<div class="browserview no_drag"></div>-->
+                        <PrivacyComponent @webViewEnd ="webViewLoadEnd"></PrivacyComponent>
                     </div>
                     <div v-if="currentPage === 2">
                         <div>{{pages[currentPage].content}}</div>
@@ -33,7 +34,7 @@
                 <div class="btn_img" style="float:left;">
                     <img class="class_img" src="~@/assets/B-vtech-logo.jpg" />
                 </div>
-                <div class="btn_same btn_continue no_drag" :class="{click_disable:isDisable}" @click="clickContinue">Continue</div>
+                <div id="id_btn_continue" class="btn_same btn_continue no_drag" :class="{click_disable:isDisable}" @click="clickContinue">Continue</div>
                 <!--<router-link class="btn_same btn_continue no_drag" to="/InstallationPrivacy">Continue</router-link>-->
                 <div class="btn_same btn_close no_drag">Close</div>
             </div>
@@ -44,11 +45,13 @@
 <script>
     import Progress from './Progress.vue'
     import ChoseFileComponent from './ChoseFileComponent.vue'
+    import PrivacyComponent from './PrivacyComponent.vue'
     export default {
         name: 'HomeView',
          components: {
              Progress,
-             ChoseFileComponent
+             ChoseFileComponent,
+             PrivacyComponent
          },
 
         data() {
@@ -66,19 +69,19 @@
         },
 
         mounted(){
-            window.electronAPI.showMainWindow()
+            //window.electronAPI.showMainWindow()
         },
 
         methods: {
             clickContinue() {
                 this.currentPage++;
-                if (this.currentPage === 1) {
-                   window.electronAPI.opnWebview()
-                } 
+                //if (this.currentPage === 1) {
+                //   window.electronAPI.opnWebview()
+                //} 
                 this.isDisable = true
-                if(this.currentPage === 1){
-                    this.isDisable = false
-                }
+                //if(this.currentPage === 1){
+                //    this.isDisable = false
+                //}
             },
 
             updateProgress() {
@@ -100,9 +103,12 @@
                 window.electronAPI.openNewWindow()
             },
 
-            downloadEnd(data){
+            downloadEnd(){
                 this.isDisable = false
-                alert(data)
+            },
+
+            webViewLoadEnd() {
+                this.isDisable = false
             }
         }
     }

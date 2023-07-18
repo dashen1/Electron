@@ -32,7 +32,7 @@ export default {
                 progressBar.style.width = `${count}%`;
                 showProgress.innerText = `${count} %`;
                 if (count === 100) {
-                    _this.$emit('progressEnd',100);
+                    _this.$emit('progressEnd');
                     clearInterval(timer);
                 }
         },1000); 
