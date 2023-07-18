@@ -31,20 +31,20 @@
             </div>
             <div class="content no_drag">
                 <router-view class="middle_content" style="position:absolute;"></router-view>
-                <div id="overlay" :class="{'loading':isLoading}" style="z-index:1;">
+                <!--<div id="overlay" :class="{'loading':isLoading}" style="z-index:1;">
                     <div style="position:absolute;top:50%;left:50%;transform:translateX(-50%) translateY(-50%);line-height:30px;">
                         <div>Login</div>
-                        <div>
+                        <div>-->
                             <!--<span style="vertical-align:middle;">Passwort:</span>-->
-                            Passwort:
-                            <input type="password" class="input_login">
+                            <!--Passwort:
+                            <input type="password" class="input_login">-->
                             <!--<img src="~@/assets/images/btn-base.png" style="vertical-align:middle;" />-->
-                        </div>
+                        <!--</div>
                         <div style="color:grey;font-size:13px;margin-top:10px;">Passwort vergessen?</div>
                         <div><img id="login_ok" :class="{'active':isActive}" @click="loginClick" style="width:100px;" src="~@/assets/images/PluginDevice/btn-OK-idle.png" /></div>
                     </div>
-                </div>
-                <div :class="{'login_loading':isShowLoading}" style="display:none;"><img class="img_loading" src="~@/assets/images/wait.gif" style="vertical-align: middle;"/></div>
+                </div>-->
+                <!--<div :class="{'login_loading':isShowLoading}" style="display:none;"><img class="img_loading" src="~@/assets/images/wait.gif" style="vertical-align: middle;"/></div>-->
             </div>
             
             <div class="bottom no_drag">
