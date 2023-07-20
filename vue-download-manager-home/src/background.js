@@ -5,12 +5,20 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const path = require('path')
-
+const ffi = require('ffi-napi')
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
     { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
+/*   ? path.resolve("public/resources/DllDemo.dll") 
+   : path.resolve("resources/DllDemo.dll")
+
+const lib = path.resolve(libPath);
+const cpplib = ffi.Library(libPath, {
+    funAdd: ['int', ['int','int']]
+  })
+  */
 async function createWindow() {
     // Create the browser window.
     const win = new BrowserWindow({
@@ -57,6 +65,7 @@ async function createWindow() {
     ipcMain.on('window-close', function () {
         win.destroy();
     })
+
 }
 
 // Quit when all windows are closed.
@@ -104,3 +113,8 @@ if (isDevelopment) {
     }
 }
 
+ipcMain.on("invoke-funAdd",function() {
+        console.log("invoke c++")
+        let num = cpplib.funAdd(5,4)
+        console.log(num)
+})

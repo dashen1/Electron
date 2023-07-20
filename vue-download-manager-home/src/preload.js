@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld("electron", {
     minWindow: () => ipcRenderer.send('window-min'),
     maxWindow: () => ipcRenderer.send('window-max'),
     closeWindow: () => ipcRenderer.send('window-close'),
+    funAdd: () => ipcRenderer.send("invoke-funAdd"),
 });
 //import { ipcRenderer } from 'electron'
 //window.ipcRenderer = ipcRenderer

@@ -59,6 +59,16 @@ const routes = [
         name: 'ChildWindow',
         component: () => import('./components/ChildWindow.vue')
     },
+    {
+        path: '/FileSelector',
+        name: 'FileSelector',
+        component: () => import('./components/FileSelector.vue')
+    },
+    //{
+    //    path: '/FileVue',
+    //    name: 'FileVue',
+    //    component: () => import('./components/FileVue.vue')
+    //},
 ]
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),

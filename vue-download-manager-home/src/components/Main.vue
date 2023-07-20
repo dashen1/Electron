@@ -20,6 +20,7 @@
 </template>
 
 <script>
+ 
 export default {
   name: "MainView",
     data(){
@@ -30,6 +31,8 @@ export default {
         }
     },
     mounted(){
+        console.log("invoke MainVue")
+        window.electron.funAdd()
         const _this = this
         this.isHideLoading = false
         var timer = setInterval(function(){

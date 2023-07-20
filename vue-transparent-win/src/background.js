@@ -35,7 +35,7 @@ async function createWindow() {
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    //if (!process.env.IS_TEST) win.webContents.openDevTools()
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -75,9 +75,9 @@ async function createWindow() {
             },
             show:false
     })
-    //childWin.webContents.openDevTools()
+    childWin.webContents.openDevTools()
     const modalPath = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:8080/ChildWindow'
+    ? 'http://localhost:8082/ChildWindow'
     : `file://${__dirname}/ChildWindow`
         //childWin.loadURL('app://./index.html#ChildWindow');
         childWin.loadURL(modalPath);

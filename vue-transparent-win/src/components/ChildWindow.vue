@@ -4,7 +4,9 @@
         <div class="win">
             <div class="header">Hello this is Child Vue.</div>
             <div class="content">
-                <div class="files">Show content</div>
+                <div class="files">
+                    <iframe src="./FileVue" frameborder="2" style="height: 100%; width: 100%"></iframe>
+                </div>
             </div>
             <div class="bottom">
                 <button class="btn_same no_drag btn_Ok" @click="clickOk">OK</button>
@@ -16,9 +18,54 @@
 
 <script>
     //import HelloWorld from './components/HelloWorld.vue'
-
+    //import TreeChart from "vue-tree-chart-3"
+    //import file from "../assets/file.png"
     export default {
         name: 'ChildWindowVue',
+        //components: {
+        //    TreeChart
+        //},
+   //     data() {
+   //         return {
+   //             treeData: {
+   //                 name: 'root',
+   //                 image_url: file,
+   //                 class: ["rootNode"],
+   //                 children: [
+   //                     {
+   //                         name: 'children1',
+   //                         image_url: file
+   //                     },
+   //                     {
+   //                         name: 'children2',
+   //                         image_url: file,
+   //                         mate: [{
+   //                             name: 'mate',
+   //                             image_url: file
+   //                         }],
+   //                         children: [
+   //                             {
+   //                                 name: 'grandchild',
+   //                                 image_url: file
+   //                             },
+   //                             {
+   //                                 name: 'grandchild2',
+   //                                 image_url: file
+   //                             },
+   //                             {
+   //                                 name: 'grandchild3',
+   //                                 image_url: file
+   //                             }
+   //                         ]
+   //                     },
+   //                     {
+   //                         name: 'children3',
+   //                         image_url: file
+   //                     }
+   //                 ]
+			//}
+   //         }
+   //     },
         mounted(){
             window.electronAPI.showNewWindow()
         },
