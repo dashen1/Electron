@@ -7,6 +7,7 @@ module.exports = defineConfig({
       preload: "src/preload.js",
       //nodeIntegration:true,
       externals:['ffi-napi','ref-napi'],
+      customFileProtocol: "./",
       builderOptions:{
         extraResources:{
           from: "./public/resources/DllDemo.dll",
@@ -14,5 +15,5 @@ module.exports = defineConfig({
         }
       }
     }
-  }
+  },
 })

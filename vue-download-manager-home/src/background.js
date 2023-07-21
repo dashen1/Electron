@@ -35,6 +35,7 @@ async function createWindow() {
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
             enableRemoteModule: true,
+            //webSecurity: false,  //是否禁用同源策略
             preload: path.join(__dirname, 'preload.js')
         }
     })
@@ -115,6 +116,6 @@ if (isDevelopment) {
 
 ipcMain.on("invoke-funAdd",function() {
         console.log("invoke c++")
-        let num = cpplib.funAdd(5,4)
-        console.log(num)
+        //let num = cpplib.funAdd(5,4)
+        //console.log(num)
 })

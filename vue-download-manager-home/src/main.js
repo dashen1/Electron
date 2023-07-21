@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory,createWebHashHistory } from 'vue-router'
 import Main from './components/Main.vue'
 
 //const electron = window.require("electron");
@@ -9,7 +9,7 @@ import Main from './components/Main.vue'
 const routes = [
     {
         path: '/',
-        name: 'main',
+        name: 'Main',
         component: Main
     },
     {
@@ -34,7 +34,8 @@ const routes = [
     },
 ]
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    //history: createWebHistory(process.env.BASE_URL),
+    history: process.env.IS_ELECTRON ? createWebHashHistory() : createWebHistory(),
     routes
 })
 

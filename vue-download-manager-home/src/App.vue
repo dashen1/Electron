@@ -30,6 +30,7 @@
                 </div>
             </div>
             <div class="content no_drag">
+                <!--<img src="/images/home_bg3.png"/>-->
                 <router-view class="middle_content" style="position:absolute;"></router-view>
                 <!--<div id="overlay" :class="{'loading':isLoading}" style="z-index:1;">
                     <div style="position:absolute;top:50%;left:50%;transform:translateX(-50%) translateY(-50%);line-height:30px;">
@@ -61,8 +62,8 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-
+//import HelloWorld from './components/HelloWorld.vue'
+//import HelloWorld from './components/HelloWorld.vue'
 //const ipc = window.electron.ipcRenderer
 export default {
   name: 'App',
@@ -75,10 +76,14 @@ export default {
             isActive:false,
             isLoading:false,
             isShowLoading:false,
+            publicPath: process.env.BASE_URL,
 
         }
     },
         
+    mounted(){
+       
+    },
   methods:{
       loginPopup(){
           alert("hello")
@@ -306,10 +311,13 @@ export default {
             width: 100%;
             height: calc(100vh - 140px);
             background-image: url(./assets/images/home_bg3.png),url(./assets/images/home_bg2.png),url(./assets/images/home_bg1.png),url(./assets/images/home_bg0.png),;
+            //background-image: url(/images/home_bg3.png),url(/images/home_bg2.png),url(/images/home_bg1.png),url(/images/home_bg0.png),;
+            //background-image: url(--img/home_bg3.png),url(--img/home_bg2.png),url(--img/home_bg1.png),url(--img/home_bg0.png);
+            //background-image: url(--img/home_bg3.png),url(--img/home_bg2.png),url(--img/home_bg1.png),url(--img/home_bg0.png);
             background-repeat: no-repeat no-repeat;
             background-size: cover;
             position: relative;
-            /*        background-color: #000;
+            /*        background-color: #000;;'
             background: rgba(0, 0, 0, 0.7);*/
         }
 

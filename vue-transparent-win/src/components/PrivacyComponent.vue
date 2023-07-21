@@ -1,6 +1,12 @@
 <template>
     <div class="video-box no_drag">
-        <iframe src="https://electronjs.org" frameborder="2" allowfullscreen></iframe>
+        <!--<iframe 
+                src="https://www.baidu.com/" 
+                frameborder="2"
+                allowfullscreen
+                content="default-src 'self'; img-src https://*; child-src 'none';"
+                allow="credentialless"
+                ></iframe>-->
     </div>
 </template>
 
@@ -10,17 +16,13 @@ export default {
 
 
         mounted() {
-            this.webViewOnload()
+            //this.webViewOnload()
+            window.electronAPI.opnWebview()
         },
     methods:{
 
         webViewOnload() {
-            const webView = document.querySelector("iframe");
-            const _this = this
-            console.log(this)
-            webView.onload = function(){
-               _this.$emit('webViewEnd');
-            }
+            
                
         }
  }
@@ -29,7 +31,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+    ::-webkit-scrollbar {
+        width: 0px; /* Òþ²Ø¹ö¶¯Ìõ¿í¶È */
+        height: 0px;
+        background-color: transparent; /* Òþ²Ø¹ö¶¯Ìõ±³¾°ÑÕÉ« */
+    }
     .no_drag {
         -webkit-app-region: no-drag;
     }

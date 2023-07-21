@@ -10,7 +10,7 @@ const path = require('path')
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
-
+//app.commandLine.appendSwitch("disable-site-isolation-trials");
 var win
 var childWin
 async function createWindow() {
@@ -27,6 +27,7 @@ async function createWindow() {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      //webSecurity: false,  //是否禁用同源策略
       preload: path.join(__dirname, 'preload.js')
     },
     //show:false
@@ -51,12 +52,23 @@ async function createWindow() {
         win.setBrowserView(view)
         view.setBounds({ x: 100, y: 200, width: 600, height: 300 })
         //view.setBackgroundColor("#F5F5F5")
-        view.webContents.loadURL('https://electronjs.org')
+        const modalPath = 'http://localhost:8081/ChildWindow'
+        view.webContents.loadURL(modalPath)
+        //view.webContents.loadURL('https://www.baidu.com')
         view.webContents.on("did-finish-load", () =>{
             console.log("finish load")
+            //view.webContents.insertCSS('html, body { background-color: #f00; }')
+            //view.webContents.insertCSS('::-webkit-scrollbar-track { background-color: rgb(32, 40, 48);}')
+            var text = 'Hello,I am main.'
             win.webContents.send("browserviewFinish", "finish load");
+            win.webContents.executeJavaScript('DM_Object = {name:"Json",age:21}')
+        .then(console.log('JavaScript Executed Successfully'));
         })
-    })
+        view.webContents.on("did-frame-finish-load",() =>{
+            console.log("did-frame-finish-load")
+        })
+        
+})
 
     ipcMain.on('window-open-new', function () {
         childWin = new BrowserWindow({

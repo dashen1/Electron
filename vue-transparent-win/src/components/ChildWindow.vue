@@ -5,7 +5,7 @@
             <div class="header">Hello this is Child Vue.</div>
             <div class="content">
                 <div class="files">
-                    <iframe src="./FileVue" frameborder="2" style="height: 100%; width: 100%"></iframe>
+                    <!--<iframe src="./FileVue" frameborder="2" style="height: 100%; width: 100%"></iframe>-->
                 </div>
             </div>
             <div class="bottom">
@@ -20,6 +20,7 @@
     //import HelloWorld from './components/HelloWorld.vue'
     //import TreeChart from "vue-tree-chart-3"
     //import file from "../assets/file.png"
+    var DM_Object;
     export default {
         name: 'ChildWindowVue',
         //components: {
@@ -67,11 +68,12 @@
    //         }
    //     },
         mounted(){
-            window.electronAPI.showNewWindow()
+            //window.electronAPI.showNewWindow()
         },
         methods: {
             clickOk(){
-                window.electronAPI.closeChildWindowWithUrl('url:www.baidu.com')
+                alert(DM_Object.name)
+                //window.electronAPI.closeChildWindowWithUrl('url:www.baidu.com')
             },
 
             clickClose() {
