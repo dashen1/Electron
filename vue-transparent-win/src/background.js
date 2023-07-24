@@ -5,12 +5,22 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const path = require('path')
+const ffi = require('ffi-napi')
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
-//app.commandLine.appendSwitch("disable-site-isolation-trials");
+
+// app.commandLine.appendSwitch("disable-site-isolation-trials");
+   //? path.resolve("public/resources/DllDemo.dll") 
+   //: path.resolve("resources/DllDemo.dll")
+
+const libPath = path.resolve("public/resources/DllDemo.dll");
+const cpplib = ffi.Library(libPath, {
+    funAdd: ['int', ['int','int']]
+  })
+  
 var win
 var childWin
 async function createWindow() {
@@ -53,19 +63,39 @@ async function createWindow() {
         view.setBounds({ x: 100, y: 200, width: 600, height: 300 })
         //view.setBackgroundColor("#F5F5F5")
         const modalPath = 'http://localhost:8081/ChildWindow'
+        //const modalPath = 'https://www.baidu.com'
         view.webContents.loadURL(modalPath)
         //view.webContents.loadURL('https://www.baidu.com')
-        view.webContents.on("did-finish-load", () =>{
+        view.webContents.on("did-finish-load", () => {
             console.log("finish load")
             //view.webContents.insertCSS('html, body { background-color: #f00; }')
             //view.webContents.insertCSS('::-webkit-scrollbar-track { background-color: rgb(32, 40, 48);}')
-            var text = 'Hello,I am main.'
+            //var text = 'Hello,I am main.'
+            var DM_Object = `{
+                name: "This is inject object2",
+                sendMessage: function (msg) {
+                    alert("This is:"+${cpplib.funAdd(100, 100)})
+                }
+            }`;
+
             win.webContents.send("browserviewFinish", "finish load");
-            win.webContents.executeJavaScript('DM_Object = {name:"Json",age:21}')
-        .then(console.log('JavaScript Executed Successfully'));
+            view.webContents.executeJavaScript(`window.DM_Object=${DM_Object};alert(window.DM_Object.name);`);
+            //view.webContents.executeJavaScript(`DM_Object = {name:"${text}",age:21};alert(DM_Object.name)`)
+            //view.webContents.executeJavaScript(`var obj = document.querySelector('.files'); alert(obj.innerHTML)`)
+            //.then(console.log('JavaScript Executed Successfully'));
         })
-        view.webContents.on("did-frame-finish-load",() =>{
+
+        view.webContents.once('dom-ready', () => {
+            console.log("dom ready")
+            //view.webContents.executeJavaScript(`alert(DM_Object.name)`)
+            //const renderHtml = '我是被临时插入webview的内容...';
+            //view.webContents.executeJavaScript('document.documentElement.innerHTML =`' + renderHtml + '`;');
+        })
+        view.webContents.on("did-frame-finish-load", () => {
             console.log("did-frame-finish-load")
+        });
+        view.webContents.on("window-child-closed", () => {
+            alert("close")
         })
         
 })
@@ -188,4 +218,15 @@ ipcMain.on("window-child-closed-url", (event,url) => {
 ipcMain.on("window-main-ready-to-show", () =>{
   console.log("main window ready to show")
   win.show()
+})
+
+ipcMain.on("toMain", (event, args) => {
+    console.log("receive data from child process")
+    win.webContents.send("fromMain", args);
+})
+
+ipcMain.on("win-dll-test", () => {
+    console.log("dll test main process")
+    let num = cpplib.funAdd(6, 4)
+    console.log(num)
 })

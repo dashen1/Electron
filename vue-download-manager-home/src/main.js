@@ -32,6 +32,11 @@ const routes = [
         name: 'Help',
         component: () => import('./components/Help.vue')
     },
+    //{
+    //    path: '/Test',
+    //    name: 'Test',
+    //    component: () => import('./components/Test.html')
+    //},
 ]
 const router = createRouter({
     //history: createWebHistory(process.env.BASE_URL),

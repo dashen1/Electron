@@ -7,6 +7,7 @@
                 content="default-src 'self'; img-src https://*; child-src 'none';"
                 allow="credentialless"
                 ></iframe>-->
+        <p>You are in render process!</p>
     </div>
 </template>
 

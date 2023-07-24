@@ -27,5 +27,19 @@ contextBridge.exposeInMainWorld("electronAPI", {
     closeChildWindow: () => ipcRenderer.send('window-child-closed'),
     closeChildWindowWithUrl: (url) => ipcRenderer.send('window-child-closed-url',url),
     loadExploer: async (url) => ipcRenderer.invoke('loadExploer', url),
-    loadData: async () => ipcRenderer.invoke('doSomething'),
+    dllTest: () => ipcRenderer.send('win-dll-test'),
+    //loadData: async () => ipcRenderer.invoke('doSomething'),
+    send: (channel, data) => {
+        // whitelist channels
+        let validChannels = ['toMain'];
+        if (validChannels.includes(channel)) {
+            ipcRenderer.send(channel, data);
+        }
+    },
+    receive: (channel, func) => {
+        let validChannels = ["fromMain"];
+        if (validChannels.includes(channel)) {
+            ipcRenderer.on(channel, (event, ...args) => func(...args));
+        }
+    }
 });

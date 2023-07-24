@@ -3,73 +3,25 @@
     <HelloWorld msg="Welcome to Your Vue.js App"/>-->
     <div class="shadow">
         <div class="win">
-            <!--<img src="~@/assets/B-vtech-logo.jpg" />-->
-            <div class="header">
-                <div class="left_top_corner"></div>
-                <div class="middle_top" style="text-align:right;">
-                    <img id="btn" class="min no_drag" src="~@/assets/images/A-min-idle.png" @click="minimizeWin"/>
-                    <img class="max no_drag" src="~@/assets/images/A-max-idle.png" @click="maximizeWin"/>
-                    <img class="close no_drag" src="~@/assets/images/A-close-idle.png" @click="closeWin"/>
-                </div>
-                <div class="right_top_corner">
-                </div>
-            </div>
-            <div class="navigation no_drag">
-                <div class="top_right_text" @click="loginPopup">Ausloggen</div>
-                <div class="nav_logo"></div>
-                <div class="nav_menu">
-                    <div class="nav_menu_left_corner"></div>
-                    <div class="nav_menu_home nav_menu_css"><router-link to="/Home" class="no_drag linker">Home</router-link></div>
-                    <!--<div class="nav_menu_line_break"><img src="~@/assets/images/TopImage/line_break.jpg" /></div>-->
-                    <div class="nav_menu_center nav_menu_css"><router-link to="/DownloadCenter" class="no_drag linker nav_route">Download Center</router-link></div>
-                    <!--<div class="nav_menu_line_break"><img src="~@/assets/images/TopImage/line_break.jpg" /></div>-->
-                    <div class="nav_menu_info nav_menu_css"><router-link to="/Info" class="no_drag linker">Info</router-link></div>
-                    <!--<div class="nav_menu_line_break"><img src="~@/assets/images/TopImage/line_break.jpg" /></div>-->
-                    <div class="nav_menu_help nav_menu_css"><router-link to="/Help" class="no_drag linker">Help</router-link></div>
-                    <div class="nav_menu_right_corner"></div>
-                </div>
-            </div>
-            <div class="content no_drag">
-                <!--<img src="/images/home_bg3.png"/>-->
-                <router-view class="middle_content" style="position:absolute;"></router-view>
-                <!--<div id="overlay" :class="{'loading':isLoading}" style="z-index:1;">
-                    <div style="position:absolute;top:50%;left:50%;transform:translateX(-50%) translateY(-50%);line-height:30px;">
-                        <div>Login</div>
-                        <div>-->
-                            <!--<span style="vertical-align:middle;">Passwort:</span>-->
-                            <!--Passwort:
-                            <input type="password" class="input_login">-->
-                            <!--<img src="~@/assets/images/btn-base.png" style="vertical-align:middle;" />-->
-                        <!--</div>
-                        <div style="color:grey;font-size:13px;margin-top:10px;">Passwort vergessen?</div>
-                        <div><img id="login_ok" :class="{'active':isActive}" @click="loginClick" style="width:100px;" src="~@/assets/images/PluginDevice/btn-OK-idle.png" /></div>
-                    </div>
-                </div>-->
-                <!--<div :class="{'login_loading':isShowLoading}" style="display:none;"><img class="img_loading" src="~@/assets/images/wait.gif" style="vertical-align: middle;"/></div>-->
-            </div>
-            
-            <div class="bottom no_drag">
-                <div class="left_bottom_corner"></div>
-                <div class="middle_bottom" style="position:relative;">
-                    <div style="position:absolute;left:50%;transform:translate(-50%);"><img src="~@/assets/images/copyright.jpg" /></div>
-                    <div class="bottom_link no_drag" style="position: absolute; left: 80%; transform: translate(-50%);">Info</div>
-                    <div class="bottom_link no_drag" style="position: absolute; left: 90%; transform: translate(-50%);">Help</div>
-                </div>
-                <div class="right_bottom_corner"></div>
-            </div>
+            <Header></Header>
+            <Main></Main>
+            <Footer></Footer>
         </div>
     </div>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
-//import HelloWorld from './components/HelloWorld.vue'
+import Header from './component/Header.vue'
+import Main from './component/Main.vue'
+import Footer from './component/Footer.vue'
 //const ipc = window.electron.ipcRenderer
 export default {
   name: 'App',
-//  components: {
-//    HelloWorld
-// }
+  components: {
+    'Header':Header,
+    'Main':Main,
+    'Footer':Footer
+ },
     data(){
         return{
 

@@ -5,6 +5,8 @@
             <div class="header">Hello this is Child Vue.</div>
             <div class="content">
                 <div class="files">
+                    <h1>You are H1</h1>
+                    hello
                     <!--<iframe src="./FileVue" frameborder="2" style="height: 100%; width: 100%"></iframe>-->
                 </div>
             </div>
@@ -20,7 +22,7 @@
     //import HelloWorld from './components/HelloWorld.vue'
     //import TreeChart from "vue-tree-chart-3"
     //import file from "../assets/file.png"
-    var DM_Object;
+    window.DM_Object = { name: "objectVue", age: 21 }
     export default {
         name: 'ChildWindowVue',
         //components: {
@@ -72,7 +74,7 @@
         },
         methods: {
             clickOk(){
-                alert(DM_Object.name)
+                window.DM_Object.sendMessage("hello")
                 //window.electronAPI.closeChildWindowWithUrl('url:www.baidu.com')
             },
 

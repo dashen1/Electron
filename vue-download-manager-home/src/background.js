@@ -13,12 +13,13 @@ protocol.registerSchemesAsPrivileged([
 
 /*   ? path.resolve("public/resources/DllDemo.dll") 
    : path.resolve("resources/DllDemo.dll")
-
-const lib = path.resolve(libPath);
+   */
+const libPath = path.resolve("public/resources/DllDemo.dll");
+console.log("Path:" + libPath);
 const cpplib = ffi.Library(libPath, {
     funAdd: ['int', ['int','int']]
   })
-  */
+  
 async function createWindow() {
     // Create the browser window.
     const win = new BrowserWindow({
@@ -116,6 +117,6 @@ if (isDevelopment) {
 
 ipcMain.on("invoke-funAdd",function() {
         console.log("invoke c++")
-        //let num = cpplib.funAdd(5,4)
-        //console.log(num)
+        let num = cpplib.funAdd(5,4)
+        console.log(num)
 })

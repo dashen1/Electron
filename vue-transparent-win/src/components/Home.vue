@@ -13,7 +13,8 @@
                         <button class="no_drag" @click="loadExploer">Open Externel website</button>
                         <button class="no_drag" @click="loadData">Get data from web</button>
                         <input type="file" class="no_drag" webkitdirectory />
-                        <div id="whattodo"></div>
+                        <div id="whattodo" class="files">whattodo</div>
+                        <button @click="dllTest" class="no_drag">dll test</button>
                     </div>
                     <div v-if="currentPage === 1">
                         <div>{{pages[currentPage].content}}</div>
@@ -70,6 +71,7 @@
 
         mounted(){
             //window.electronAPI.showMainWindow()
+            
         },
 
         methods: {
@@ -109,6 +111,19 @@
 
             webViewLoadEnd() {
                 this.isDisable = false
+            },
+
+            loadData() {
+                //window.electronAPI.receive("fromMain", (data) => {
+                //    alert(`Received ${data} from main process`);
+                //});
+                //window.electronAPI.send("toMain", "Baby baby!");
+                var obj = document.querySelector(".files");
+                alert(obj.innerHTML)
+            },
+
+            dllTest(){
+                window.electronAPI.dllTest()
             }
         }
     }
