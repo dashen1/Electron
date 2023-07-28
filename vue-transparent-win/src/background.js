@@ -3,20 +3,24 @@
 import { app, protocol, BrowserWindow,ipcMain,BrowserView,shell,net } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
+//import { log } from 'electron-log'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const path = require('path')
 const ffi = require('ffi-napi')
-
+const log = require('electron-log');
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
+log.info('Hello, log');
+log.warn('Some problem appears');
 // app.commandLine.appendSwitch("disable-site-isolation-trials");
-   //? path.resolve("public/resources/DllDemo.dll") 
-   //: path.resolve("resources/DllDemo.dll")
+const libPath = process.env.NODE_ENV === 'development'
+   ? path.resolve("public/resources/DllDemo.dll") 
+   : path.resolve("resources/DllDemo.dll")
 
-const libPath = path.resolve("public/resources/DllDemo.dll");
+//const libPath = path.resolve("public/resources/DllDemo.dll");
 const cpplib = ffi.Library(libPath, {
     funAdd: ['int', ['int','int']]
   })
@@ -62,7 +66,10 @@ async function createWindow() {
         win.setBrowserView(view)
         view.setBounds({ x: 100, y: 200, width: 600, height: 300 })
         //view.setBackgroundColor("#F5F5F5")
-        const modalPath = 'http://localhost:8081/ChildWindow'
+        //const modalPath = 'http://localhost:8081/ChildWindow'
+        const modalPath = process.env.NODE_ENV === 'development'
+            ? 'http://localhost:8081#/ChildWindow'
+            : `file://${__dirname}/index.html#/ChildWindow`
         //const modalPath = 'https://www.baidu.com'
         view.webContents.loadURL(modalPath)
         //view.webContents.loadURL('https://www.baidu.com')
@@ -73,13 +80,14 @@ async function createWindow() {
             //var text = 'Hello,I am main.'
             var DM_Object = `{
                 name: "This is inject object2",
+                path:"file://${__dirname}/index.html#/ChildWindow",
                 sendMessage: function (msg) {
-                    alert("This is:"+${cpplib.funAdd(100, 100)})
+                    alert("This is:"+${cpplib.funAdd(100, 200)})
                 }
             }`;
 
             win.webContents.send("browserviewFinish", "finish load");
-            view.webContents.executeJavaScript(`window.DM_Object=${DM_Object};alert(window.DM_Object.name);`);
+            view.webContents.executeJavaScript(`window.DM_Object=${DM_Object};alert(window.DM_Object.path);`);
             //view.webContents.executeJavaScript(`DM_Object = {name:"${text}",age:21};alert(DM_Object.name)`)
             //view.webContents.executeJavaScript(`var obj = document.querySelector('.files'); alert(obj.innerHTML)`)
             //.then(console.log('JavaScript Executed Successfully'));
@@ -119,7 +127,7 @@ async function createWindow() {
     })
     childWin.webContents.openDevTools()
     const modalPath = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:8082/ChildWindow'
+    ? 'http://localhost:8081/ChildWindow'
     : `file://${__dirname}/ChildWindow`
         //childWin.loadURL('app://./index.html#ChildWindow');
         childWin.loadURL(modalPath);
@@ -227,6 +235,6 @@ ipcMain.on("toMain", (event, args) => {
 
 ipcMain.on("win-dll-test", () => {
     console.log("dll test main process")
-    let num = cpplib.funAdd(6, 4)
+    let num = cpplib.funAdd(6, 6)
     console.log(num)
 })

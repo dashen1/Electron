@@ -6,6 +6,7 @@ import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const path = require('path')
 const ffi = require('ffi-napi')
+const log = require('electron-log');
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
     { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -14,6 +15,8 @@ protocol.registerSchemesAsPrivileged([
 /*   ? path.resolve("public/resources/DllDemo.dll") 
    : path.resolve("resources/DllDemo.dll")
    */
+log.info('Hello, log');
+log.warn('Some problem appears');
 const libPath = path.resolve("public/resources/DllDemo.dll");
 console.log("Path:" + libPath);
 const cpplib = ffi.Library(libPath, {

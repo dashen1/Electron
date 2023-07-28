@@ -10,6 +10,7 @@
                 <div class="middle_content">
                     <div v-if="currentPage === 0">
                         <div>{{pages[currentPage].content}}</div>
+                        <LLButton :name="'Custom button'" @btn-click="cutomClick"></LLButton>
                         <button class="no_drag" @click="loadExploer">Open Externel website</button>
                         <button class="no_drag" @click="loadData">Get data from web</button>
                         <input type="file" class="no_drag" webkitdirectory />
@@ -35,9 +36,9 @@
                 <div class="btn_img" style="float:left;">
                     <img class="class_img" src="~@/assets/B-vtech-logo.jpg" />
                 </div>
-                <div id="id_btn_continue" class="btn_same btn_continue no_drag" :class="{click_disable:isDisable}" @click="clickContinue">Continue</div>
+                <LLButton id="id_btn_continue" class="btn_continue" :name="'Continue'" @click="clickContinue"></LLButton>
                 <!--<router-link class="btn_same btn_continue no_drag" to="/InstallationPrivacy">Continue</router-link>-->
-                <div class="btn_same btn_close no_drag">Close</div>
+                <LLButton class="btn_close" :name="'Close'" :unClickable="unClickable"></LLButton>
             </div>
         </div>
     </div>
@@ -47,12 +48,14 @@
     import Progress from './Progress.vue'
     import ChoseFileComponent from './ChoseFileComponent.vue'
     import PrivacyComponent from './PrivacyComponent.vue'
+    import LLButton from '../component/LLButton.vue'
     export default {
         name: 'HomeView',
          components: {
              Progress,
              ChoseFileComponent,
-             PrivacyComponent
+             PrivacyComponent,
+             LLButton
          },
 
         data() {
@@ -65,7 +68,8 @@
                     currentPage:0,
                     msg:'msgTest',
                     infor:[],
-                    isDisable:false
+                    isDisable:false,
+                    unClickable:true
             }
         },
 
@@ -124,6 +128,10 @@
 
             dllTest(){
                 window.electronAPI.dllTest()
+            },
+
+            customClick(){
+                alert("自定义button")
             }
         }
     }

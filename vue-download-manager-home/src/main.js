@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHistory,createWebHashHistory } from 'vue-router'
 import Main from './components/Main.vue'
+import eventBus from 'vue3-eventbus'
 
 //const electron = window.require("electron");
 //Vue.prototype.$electron = electron;
@@ -25,7 +26,34 @@ const routes = [
     {
         path: '/Info',
         name: 'Info',
-        component: () => import('./components/Info.vue')
+        component: () => import('./components/Info.vue'),
+        children:[
+            {
+                path:'a',
+                component:() => import('./childcomponents/ChildA.vue')
+            },
+            {
+                path:'b',
+                component:() => import('./childcomponents/ChildB.vue')
+            },
+            {
+                path:'c',
+                component:() => import('./childcomponents/ChildC.vue')
+            },
+            {
+                path:'d',
+                component:() => import('./childcomponents/ChildD.vue')
+            },
+            {
+                path:'e',
+                component:() => import('./childcomponents/ChildE.vue')
+            },
+            {
+                path:'f',
+                component:() => import('./childcomponents/ChildF.vue')
+            },
+
+        ]
     },
     {
         path: '/Help',
@@ -44,4 +72,4 @@ const router = createRouter({
     routes
 })
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).use(eventBus).mount('#app')

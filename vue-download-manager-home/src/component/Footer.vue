@@ -16,4 +16,43 @@
     }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+    $url_prefix: '../assets';
+
+    .bottom {
+        display: grid;
+        width: 100%;
+        grid-template-rows: 20px;
+        grid-template-columns: 20px auto 20px;
+    }
+
+    .left_bottom_corner {
+        background-image: url(($url_prefix)+"/images/TopImage/D-leftBottomCorner.png");
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+    }
+
+    .middle_bottom {
+        background-image: url(($url_prefix)+"/images/TopImage/D-bg.jpg");
+        background-repeat: no-repeat;
+        background-size: auto 20px;
+    }
+
+    .right_bottom_corner {
+        background-image: url(($url_prefix)+"/images/TopImage/D-rightBottomCorner.png");
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+    }
+
+    .bottom_link {
+        text-decoration: none;
+        font-size: 12px;
+        height: 20px;
+        line-height: 20px;
+    }
+
+    .bottom_link:hover {
+        color: #ffffff;
+        cursor: default;
+    }
+</style>

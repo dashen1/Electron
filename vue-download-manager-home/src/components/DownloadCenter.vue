@@ -1,32 +1,71 @@
 <template>
-    <div class="shadow">
-        <div class="win">
-            <!--<img src="~@/assets/B-vtech-logo.jpg" />-->
-            <div class="content">Downloading...</div>
-           
-        </div>
-    </div>
+    <ul id="demo">
+        <TreeItem v-for="(childData,index) in treeData"
+                   :key="index"
+                   class="item"
+                   :item="childData"></TreeItem>
+    </ul>
 </template>
 
 <script>
-export default {
-  name: "DownloadCenterView",
-  props:{
+import TreeItem from '../component/TreeItem.vue'
 
-      msg:String
-  },
-
+       var treeData = [
+        {
+          name: "My Tree",
+          children: [
+            {
+              name: "child folder"
+            },
+            {
+              name: "child folder"
+            }
+          ]
+        },
+        {
+          name: "My Tree",
+          children: [
+            {
+              name: "child folder"
+            },
+            {
+              name: "child folder"
+            }
+          ]
+        }
+      ];
+export default{
+    name:"DownloadCenter",
+    components:{
+        TreeItem
+    },
+    data(){
+        return{
+            treeData
+        }
+    },
+    mounted(){
+        alert(this.treeData.length)
+    },
     methods:{
-      show(){
-          alert("hello")
-      }
+        makeFolder(){
 
- }
-};
+        },
 
+        addItem(item){
+            console.log(item)
+        }
+    }
+}
 </script>
 
 <style lang="scss" scoped>
+    .item {
+        cursor: pointer;
+        line-height: 1.5;
+    }
 
-  
+    .bold {
+        font-weight: bold;
+    }
 </style>
