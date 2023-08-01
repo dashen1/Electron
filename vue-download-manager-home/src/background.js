@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, ipcMain } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, BrowserView } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -22,7 +22,8 @@ console.log("Path:" + libPath);
 const cpplib = ffi.Library(libPath, {
     funAdd: ['int', ['int','int']]
   })
-  
+
+var view;
 async function createWindow() {
     // Create the browser window.
     const win = new BrowserWindow({
@@ -39,7 +40,7 @@ async function createWindow() {
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
             enableRemoteModule: true,
-            //webSecurity: false,  //ÊÇ·ñ½ûÓÃÍ¬Ô´²ßÂÔ
+            //webSecurity: false,  //ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Í¬Ô´ï¿½ï¿½ï¿½ï¿½ 
             preload: path.join(__dirname, 'preload.js')
         }
     })
@@ -47,18 +48,78 @@ async function createWindow() {
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode
         await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-        if (!process.env.IS_TEST) win.webContents.openDevTools();
+        //if (!process.env.IS_TEST) win.webContents.openDevTools(); 
     } else {
         createProtocol('app')
         // Load the index.html when not in development
         win.loadURL('app://./index.html')
     }
 
-    //µÇÂ¼´°¿Ú×îÐ¡»¯
+    //ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½
     ipcMain.on('window-min', function () {
         win.minimize();
     })
-    //µÇÂ¼´°¿Ú×î´ó»¯
+
+    ipcMain.on('open-browser-view', (event, data) => {
+        if(typeof(view) == 'undefined'){
+            view = new BrowserView()
+            win.setBrowserView(view)
+            view.setBounds({ x: 58, y: 160, width: 900, height: 500 })
+            //view.setBackgroundColor("#F5F5F5")
+            const modalPath = process.env.NODE_ENV === 'development'
+            ? 'http://localhost:8080/ChildWindow'
+            : path.resolve(__dirname,"ChildWindow")
+            var pt = path.resolve(__dirname,"index.html/#/ChildWindow");
+            //const modalPath = 'https://www.baidu.com'
+            //view.webContents.loadURL(`file://${__dirname}/index.html#/ChildWindow`)
+            view.webContents.loadURL('https://www.baidu.com')
+            view.webContents.on("did-finish-load", () => {
+                console.log("finish load")
+                //view.webContents.insertCSS('html, body { background-color: #f00; }')
+                //view.webContents.insertCSS('::-webkit-scrollbar-track { background-color: rgb(32, 40, 48);}')
+                //var text = 'Hello,I am main.'
+                var DM_Object = `{
+                    name: "This is inject object2",
+                    path:"file://${__dirname}/index.html#/ChildWindow",
+                    sendMessage: function (msg) {
+                        alert("This is:"+${cpplib.funAdd(100, 100)})
+                    }
+                }`;
+              //   var DM_Object = `{
+              //     name: "This is inject object2",
+              //     sendMessage: function (msg) {
+              //         alert("This is:"+msg)
+              //     }
+              // }`;
+    
+                win.webContents.send("browserviewFinish", "finish load");
+                view.webContents.executeJavaScript(`window.DM_Object=${DM_Object};`);
+                //view.webContents.executeJavaScript(`window.DM_Object=${DM_Object};alert(window.DM_Object.path);`);
+                //view.webContents.executeJavaScript(`DM_Object = {name:"${text}",age:21};alert(DM_Object.name)`)
+                //view.webContents.executeJavaScript(`var obj = document.querySelector('.files'); alert(obj.innerHTML)`)
+                //.then(console.log('JavaScript Executed Successfully'));
+            })
+    
+            view.webContents.once('dom-ready', () => {
+                console.log("dom ready")
+                //view.webContents.executeJavaScript(`alert(DM_Object.name)`)
+                //const renderHtml = 'æˆ‘æ˜¯è¢«ä¸´æ—¶æ’å…¥webviewçš„å†…å®¹...';
+                //view.webContents.executeJavaScript('document.documentElement.innerHTML =`' + renderHtml + '`;');
+            })
+            view.webContents.on("did-frame-finish-load", () => {
+                console.log("did-frame-finish-load")
+            });
+            view.webContents.on("window-child-closed", () => {
+                alert("close")
+            })
+            win.webContents.send("receive-from-browser-view", data);
+        }else{
+            view.setBounds({ x: 58, y: 160, width: 900, height: 400 })
+        }
+        
+})
+
+    //ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     ipcMain.on('window-max', function () {
         if (win.isMaximized()) {
             win.unmaximize();
@@ -66,7 +127,7 @@ async function createWindow() {
             win.maximize();
         }
     })
-    //¹Ø±Õ´°¿Ú
+    //ï¿½Ø±Õ´ï¿½ï¿½ï¿½
     ipcMain.on('window-close', function () {
         win.destroy();
     })
@@ -122,4 +183,19 @@ ipcMain.on("invoke-funAdd",function() {
         console.log("invoke c++")
         let num = cpplib.funAdd(5,4)
         console.log(num)
+})
+
+ipcMain.on("invoke-funAdd",function() {
+    console.log("invoke c++")
+    let num = cpplib.funAdd(5,4)
+    console.log(num)
+})
+
+ipcMain.on("browser-view-hide", (event, data) => {
+    console.log("hide browser view:"+data)
+    view.setBounds({ x: 58, y: 160, width: 0, height: 0 })
+})
+
+ipcMain.handle("print-log", (event, level,info) => {
+    console.log("print log:"+info)
 })

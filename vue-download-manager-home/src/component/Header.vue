@@ -17,6 +17,7 @@
             <div class="nav_menu_home nav_menu_css"><router-link to="/Home" class="no_drag linker">Home</router-link></div>
             <div class="nav_menu_center nav_menu_css"><router-link to="/DownloadCenter" class="no_drag linker nav_route">Download Center</router-link></div>
             <div class="nav_menu_info nav_menu_css"><router-link to="/Info" class="no_drag linker">Info</router-link></div>
+            <div class="nav_menu_browser nav_menu_css"><router-link to="/Webview" class="no_drag linker">Webview</router-link></div>
             <div class="nav_menu_help nav_menu_css"><router-link to="/Help" class="no_drag linker">Help</router-link></div>
             <div class="nav_menu_right_corner"></div>
         </div>

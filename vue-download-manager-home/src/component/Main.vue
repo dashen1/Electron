@@ -1,6 +1,8 @@
 <template>
     <div class="content">
-        <router-view class="middle_content"></router-view>
+        <keep-alive>
+            <router-view class="middle_content"></router-view>
+        </keep-alive>
     </div>
 </template>
 

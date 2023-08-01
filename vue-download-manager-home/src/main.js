@@ -24,6 +24,11 @@ const routes = [
         component: () => import('./components/DownloadCenter.vue')
     },
     {
+        path: '/Webview',
+        name: 'Webview',
+        component: () => import('./components/Webview.vue')
+    },
+    {
         path: '/Info',
         name: 'Info',
         component: () => import('./components/Info.vue'),
