@@ -22,3 +22,15 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### router-view + keep-alive
+```
+<router-view class="middle_content" v-slot="{ Component, route }">
+    <keep-alive>
+          <component
+            :is="Component"
+            :key="route.path"
+          />
+    </keep-alive>
+</router-view>
+```
